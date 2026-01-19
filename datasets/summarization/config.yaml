@@ -1,0 +1,172 @@
+# Configuration for News Summarization Dataset
+
+dataset:
+  name: sr-bs-hr-news-summarization
+  version: 1.0.0
+  description: "News summarization dataset using journalistic leads"
+  
+  target_size:
+    min_pairs: 20000
+    max_pairs: 50000
+    
+  language_distribution:
+    bs: 0.33
+    hr: 0.33
+    sr: 0.34
+
+source:
+  # Derive from Clean Text Corpus (news only)
+  source_dataset: "clean_text"
+  source_dataset_path: "../clean_text/output"
+  
+  # Filter to news domain only
+  domain_filter: "news"
+
+extraction:
+  # Article structure detection
+  detect_lead_paragraph: true
+  lead_detection_method: "heuristic"  # or "trained_model"
+  
+  # Heuristic rules for lead detection
+  heuristic_rules:
+    # Lead is typically the first 1-3 paragraphs
+    max_paragraphs_for_lead: 3
+    
+    # Lead characteristics
+    min_lead_sentences: 2
+    max_lead_sentences: 6
+    
+    min_lead_words: 30
+    max_lead_words: 200
+    
+    # Article characteristics (excluding lead)
+    min_article_words: 200
+    max_article_words: 3000
+
+quality:
+  # Summary quality filters
+  summary_filters:
+    # Reject summaries with these patterns
+    reject_patterns:
+      - "Pročitajte više"
+      - "Pratite nas"
+      - "Kliknite ovdje"
+      - "Saznajte više"
+      - "Video:"
+      - "Foto:"
+      
+    # Summary must be significantly shorter than article
+    max_summary_article_ratio: 0.20  # Summary <= 20% of article
+    
+    # Minimum semantic difference (to avoid extractive copies)
+    min_rouge_l_diff: 0.20  # At least 20% different
+    
+  # Article quality filters
+  article_filters:
+    # Minimum article quality
+    min_words: 200
+    max_words: 5000
+    
+    # Content validation
+    min_sentences: 5
+    max_digit_ratio: 0.15
+
+  # Compression ratio
+  target_compression_ratio:
+    min: 5   # At least 5:1 compression
+    max: 20  # At most 20:1 compression
+
+deduplication:
+  # Remove duplicate articles (same content from multiple sources)
+  use_minhash: true
+  minhash_threshold: 0.85
+  
+  # Agency news detection (same article on multiple sites)
+  detect_agency_news: true
+
+categorization:
+  # Extract article categories if available
+  extract_categories: true
+  
+  # Standard categories
+  standard_categories:
+    - politika
+    - ekonomija
+    - sport
+    - tehnologija
+    - kultura
+    - zdravlje
+    - društvo
+    - svijet
+    - region
+    
+  # Unknown category fallback
+  unknown_category: "ostalo"
+
+balancing:
+  # Balance across languages
+  balance_languages: true
+  
+  # Balance across sources
+  balance_sources: true
+  
+  # Balance across categories (if available)
+  balance_categories: false  # Optional
+
+splits:
+  train: 0.80
+  validation: 0.10
+  test: 0.10
+  
+  # Stratification
+  stratify_by:
+    - language
+    - source
+  
+  # Random seed
+  random_seed: 42
+
+output:
+  formats:
+    - jsonl
+    - parquet
+  
+  output_dir: "./output/summarization"
+  compression: gzip
+  
+  # Include metadata
+  include_metadata:
+    - source
+    - date
+    - url
+    - category
+    
+  # Hugging Face
+  hf_repo: "balkan-nlp/sr-bs-hr-news-summarization"
+  hf_private: false
+
+evaluation:
+  # Calculate baseline metrics on test set
+  compute_baselines: true
+  
+  baseline_methods:
+    - "lead_3"  # First 3 sentences
+    - "textrank"
+    
+  metrics:
+    - "rouge_1"
+    - "rouge_2"
+    - "rouge_l"
+
+logging:
+  level: INFO
+  log_file: "./logs/summarization_processing.log"
+
+metadata:
+  save_intermediate: true
+  save_statistics: true
+  statistics_dir: "./stats/summarization"
+  
+  # Save examples for manual inspection
+  save_examples: true
+  num_examples: 100

@@ -1,0 +1,127 @@
+# Configuration for Clean Text Corpus Dataset processing
+
+dataset:
+    name: sr-bs-hr-clean-text
+    version: 1.0.0
+    description: "Clean, deduplicated text corpus for sr/bs/hr languages"
+
+    target_size:
+        min_documents: 50000
+        max_documents: 150000
+
+    language_distribution:
+        bs: 0.33
+        hr: 0.33
+        sr: 0.34
+
+collection:
+    # Scraping parameters
+    user_agent: "BalkanNLP/1.0 (Research Project; +https://github.com/rsadevteam/balkan-nlp)"
+    timeout: 30 # seconds
+    max_retries: 3
+    respect_robots_txt: true
+
+    # Rate limiting
+    default_rate_limit: 1 # requests per second
+
+    # Caching
+    cache_enabled: true
+    cache_dir: "./cache"
+
+cleaning:
+    # Text cleaning parameters
+    min_length: 200 # characters
+    max_length: 50000 # characters
+
+    # Boilerplate removal
+    remove_comments: true
+    remove_navigation: true
+    remove_footer: true
+    remove_ads: true
+
+    # Text normalization
+    unicode_normalization: NFC
+    normalize_whitespace: true
+    normalize_quotes: true
+    normalize_dashes: true
+
+    # Content filtering
+    exclude_patterns:
+        - "Pročitajte više"
+        - "Pratite nas na"
+        - "Komentari"
+        - "Autor:"
+
+quality:
+    # Language validation
+    min_language_confidence: 0.90
+
+    # Readability
+    min_words_per_document: 50
+    max_words_per_document: 10000
+
+    # Character distribution checks
+    max_digit_ratio: 0.3 # Maximum 30% digits
+    max_special_char_ratio: 0.2
+
+deduplication:
+    # Exact duplicates
+    use_sha256: true
+
+    # Near-duplicates
+    use_minhash: true
+    minhash_threshold: 0.90 # 90% similarity
+    minhash_num_perm: 128
+
+    # Paragraph-level dedup for article-level decisions
+    paragraph_level: true
+
+language_assignment:
+    # Primary strategy: source-based
+    use_source_based: true
+
+    # Secondary validation
+    use_fasttext_validation: true
+    fasttext_model_path: "./models/lid.176.bin"
+
+    # Confidence thresholds
+    min_confidence_for_override: 0.95
+
+splits:
+    train: 0.80
+    validation: 0.10
+    test: 0.10
+
+    # Stratification
+    stratify_by:
+        - language
+        - source
+        - domain
+
+    # Random seed for reproducibility
+    random_seed: 42
+
+output:
+    # Export formats
+    formats:
+        - jsonl
+        - parquet
+
+    # Output directory
+    output_dir: "./output/clean_text"
+
+    # Compression
+    compression: gzip
+
+    # Hugging Face
+    hf_repo: "balkan-nlp/sr-bs-hr-clean-text"
+    hf_private: false
+
+logging:
+    level: INFO
+    log_file: "./logs/clean_text_processing.log"
+
+metadata:
+    save_intermediate: true
+    save_statistics: true
+    statistics_dir: "./stats/clean_text"

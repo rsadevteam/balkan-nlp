@@ -1,0 +1,130 @@
+# Sources configuration for Clean Text Corpus Dataset
+# This file defines all sources used for data collection
+
+bosnia:
+  - name: klix
+    url: https://klix.ba
+    language: bs
+    type: news
+    enabled: true
+    rate_limit: 1  # requests per second
+    
+  - name: avaz
+    url: https://avaz.ba
+    language: bs
+    type: news
+    enabled: true
+    rate_limit: 1
+    
+  - name: faktor
+    url: https://faktor.ba
+    language: bs
+    type: news
+    enabled: true
+    rate_limit: 1
+    
+  - name: n1info_ba
+    url: https://n1info.ba
+    language: bs
+    type: news
+    enabled: true
+    rate_limit: 1
+
+croatia:
+  - name: index
+    url: https://index.hr
+    language: hr
+    type: news
+    enabled: true
+    rate_limit: 1
+    
+  - name: jutarnji
+    url: https://jutarnji.hr
+    language: hr
+    type: news
+    enabled: true
+    rate_limit: 1
+    
+  - name: vecernji
+    url: https://vecernji.hr
+    language: hr
+    type: news
+    enabled: true
+    rate_limit: 1
+    
+  - name: tportal
+    url: https://tportal.hr
+    language: hr
+    type: news
+    enabled: true
+    rate_limit: 1
+
+serbia:
+  - name: blic
+    url: https://blic.rs
+    language: sr
+    type: news
+    enabled: true
+    rate_limit: 1
+    
+  - name: politika
+    url: https://politika.rs
+    language: sr
+    type: news
+    enabled: true
+    rate_limit: 1
+    
+  - name: rts
+    url: https://rts.rs
+    language: sr
+    type: news
+    enabled: true
+    rate_limit: 1
+    
+  - name: n1info_rs
+    url: https://n1info.rs
+    language: sr
+    type: news
+    enabled: true
+    rate_limit: 1
+
+wikipedia:
+  - name: bs_wikipedia
+    url: https://bs.wikipedia.org
+    language: bs
+    type: wiki
+    enabled: true
+    dump_url: https://dumps.wikimedia.org/bswiki/latest/
+    
+  - name: hr_wikipedia
+    url: https://hr.wikipedia.org
+    language: hr
+    type: wiki
+    enabled: true
+    dump_url: https://dumps.wikimedia.org/hrwiki/latest/
+    
+  - name: sr_wikipedia
+    url: https://sr.wikipedia.org
+    language: sr
+    type: wiki
+    enabled: true
+    dump_url: https://dumps.wikimedia.org/srwiki/latest/
+
+government:
+  - name: sluzbeni_glasnik_bih
+    url: http://www.sluzbenilist.ba
+    language: bs
+    type: gov
+    enabled: false  # To be implemented in later phases
+    
+  - name: narodne_novine_hr
+    url: https://narodne-novine.nn.hr
+    language: hr
+    type: gov
+    enabled: false
+    
+  - name: sluzbeni_glasnik_rs
+    url: http://www.slglasnik.com
+    language: sr
+    type: gov
+    enabled: false
