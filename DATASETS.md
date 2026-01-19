@@ -244,17 +244,17 @@ This document provides an overview of all datasets in the Balkan NLP project, th
 
 ### 7. Named Entity Recognition (NER)
 
-**Target Size**: 15K-30K sentences  
+**Target Size**: 15K-30K sentences
 **Entities**: PERSON, LOCATION, ORGANIZATION, DATE
 
 ### 8. Text Classification
 
-**Target Size**: 20K-50K documents  
+**Target Size**: 20K-50K documents
 **Categories**: Politics, Economy, Sports, Technology, etc.
 
 ### 9. Translation (sr↔hr↔bs)
 
-**Target Size**: 10K-25K parallel sentences  
+**Target Size**: 10K-25K parallel sentences
 **Unique**: Rare resource for South Slavic variants
 
 ### 10. Translation (sr/bs/hr↔EN)
@@ -263,7 +263,7 @@ This document provides an overview of all datasets in the Balkan NLP project, th
 
 ### 11. LLM Evaluation Benchmark
 
-**Target Size**: 5K-10K questions  
+**Target Size**: 5K-10K questions
 **Types**: QA, reasoning, local knowledge
 
 **Documentation**: [docs/PHASE_3.md](docs/PHASE_3.md)
@@ -274,22 +274,22 @@ This document provides an overview of all datasets in the Balkan NLP project, th
 
 ### 12. Legal & Government Texts
 
-**Target Size**: 5K-15K documents  
+**Target Size**: 5K-15K documents
 **Types**: Laws, regulations, decisions
 
 ### 13. Public Institution QA
 
-**Target Size**: 3K-8K Q&A pairs  
+**Target Size**: 3K-8K Q&A pairs
 **Topics**: Administrative procedures, public services
 
 ### 14. ASR Post-processing
 
-**Target Size**: 10K-25K sentences  
+**Target Size**: 10K-25K sentences
 **Purpose**: Punctuation, capitalization, normalization
 
 ### 15. Domain Instructions (Health, Finance, Law)
 
-**Target Size**: Varies by domain  
+**Target Size**: Varies by domain
 **Purpose**: Domain-specific instruction tuning
 
 **Documentation**: [docs/PHASE_4.md](docs/PHASE_4.md)
@@ -344,10 +344,10 @@ All datasets must meet:
 
 ## 🚀 Release Schedule (Tentative)
 
-**2025 Q1**: Phase 1 datasets  
-**2025 Q2**: Phase 2 datasets  
-**2025 Q3**: Phase 3 datasets  
-**2025 Q4**: Phase 4 datasets (optional)
+**2026 Q1**: Phase 1 datasets
+**2026 Q2**: Phase 2 datasets
+**2026 Q3**: Phase 3 datasets
+**2026 Q4**: Phase 4 datasets (optional)
 
 ---
 
@@ -382,4 +382,4 @@ For dataset-specific questions:
 
 ---
 
-**Last Updated**: 2025-01-19
+**Last Updated**: 2026-01-19

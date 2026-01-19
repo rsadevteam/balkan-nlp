@@ -186,10 +186,10 @@ huggingface.co/datasets/balkan-nlp/sr-bs-hr-clean-text
 ## 📚 Citation
 
 ```bibtex
-@dataset{balkan_nlp_clean_text_2025,
+@dataset{balkan_nlp_clean_text_2026,
   title={SR/BS/HR Clean Text Corpus},
   author={Balkan NLP Project},
-  year={2025},
+  year={2026},
   publisher={Hugging Face},
   url={https://huggingface.co/datasets/balkan-nlp/sr-bs-hr-clean-text}
 }

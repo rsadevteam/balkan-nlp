@@ -5,6 +5,7 @@
 Phase 2 focuses on making large language models useful and aligned for Serbian, Bosnian, and Croatian by providing task-oriented and instruction-following data.
 
 This phase directly improves:
+
 - 💬 Conversational quality
 - 🧠 Reasoning capabilities
 - 📝 Summarization
@@ -40,9 +41,9 @@ Enable instruction-following and chat-style behavior for LLMs in sr/bs/hr langua
 
 ```jsonl
 {
-  "instruction": "Objasni jednostavno šta je inflacija",
-  "response": "Inflacija je porast cijena roba i usluga tokom vremena...",
-  "language": "bs"
+	"instruction": "Objasni jednostavno šta je inflacija",
+	"response": "Inflacija je porast cijena roba i usluga tokom vremena...",
+	"language": "bs"
 }
 ```
 
@@ -71,10 +72,10 @@ Special focus on variations between sr/bs/hr language variants.
 
 ```jsonl
 {
-  "text_a": "Odluka je donesena danas.",
-  "text_b": "Danas je donijeta odluka.",
-  "language": "bs",
-  "similarity": "high"
+	"text_a": "Odluka je donesena danas.",
+	"text_b": "Danas je donijeta odluka.",
+	"language": "bs",
+	"similarity": "high"
 }
 ```
 
@@ -107,10 +108,10 @@ Support moderation and safety systems with region-specific toxic language, inclu
 
 ```jsonl
 {
-  "text": "Comment text...",
-  "label": "hate_speech",
-  "language": "sr",
-  "context": "political"
+	"text": "Comment text...",
+	"label": "hate_speech",
+	"language": "sr",
+	"context": "political"
 }
 ```
 
@@ -122,7 +123,8 @@ Support moderation and safety systems with region-specific toxic language, inclu
 
 ### Ethical Considerations
 
-⚠️ **Important**: 
+⚠️ **Important**:
+
 - Clear ethical documentation
 - Anonymization
 - Clear use-case guidelines
@@ -148,12 +150,12 @@ Phase 2 is considered successful if:
 
 ## ⏱️ Time Estimate
 
-| Dataset | Duration |
-|---------|----------|
-| Instruction / Q&A | 2-3 weeks |
-| Paraphrase | 2-3 weeks |
-| Toxic / Hate Speech | 2-3 weeks |
-| **TOTAL** | **6-9 weeks** |
+| Dataset             | Duration      |
+| ------------------- | ------------- |
+| Instruction / Q&A   | 2-3 weeks     |
+| Paraphrase          | 2-3 weeks     |
+| Toxic / Hate Speech | 2-3 weeks     |
+| **TOTAL**           | **6-9 weeks** |
 
 ---
 

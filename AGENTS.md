@@ -1,6 +1,6 @@
 # AGENTS.md — Instructions for AI Code Agents
 
-**Last Updated**: 2025-01-19  
+**Last Updated**: 2026-01-19
 **Project**: Balkan NLP - High-quality datasets for Serbian, Bosnian, and Croatian
 
 ---

@@ -2,7 +2,7 @@
 
 This document tracks immediate tasks and long-term goals for Balkan NLP.
 
-**Last Updated**: 2025-01-19
+**Last Updated**: 2026-01-19
 
 ---
 
@@ -126,21 +126,21 @@ This document tracks immediate tasks and long-term goals for Balkan NLP.
 
 ## 🔮 Future Phases
 
-### Phase 2: LLM Enablement (Q2 2025)
+### Phase 2: LLM Enablement (Q2 2026)
 
 - [ ] Instruction dataset generation
 - [ ] Paraphrase extraction
 - [ ] Toxic speech annotation
 - [ ] Quality validation
 
-### Phase 3: Structured NLP (Q3 2025)
+### Phase 3: Structured NLP (Q3 2026)
 
 - [ ] NER annotation
 - [ ] Text classification
 - [ ] Translation pairs
 - [ ] LLM benchmark
 
-### Phase 4: Domain-Specific (Q4 2025)
+### Phase 4: Domain-Specific (Q4 2026)
 
 - [ ] Legal corpus
 - [ ] Public QA
@@ -297,7 +297,7 @@ This TODO should be reviewed:
 
 ---
 
-**Next Review**: 2025-01-26
+**Next Review**: 2026-01-26
 
 ---
 

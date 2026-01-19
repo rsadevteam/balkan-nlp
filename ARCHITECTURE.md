@@ -39,6 +39,7 @@ This document describes the system design, module organization, and data flow fo
 **Purpose**: Fetch and extract raw content from web sources.
 
 **Responsibilities**:
+
 - HTTP requests with rate limiting
 - HTML parsing and boilerplate removal
 - Metadata extraction (date, source, URL)
@@ -46,11 +47,13 @@ This document describes the system design, module organization, and data flow fo
 - Caching responses
 
 **Does NOT**:
+
 - Clean text
 - Deduplicate
 - Transform data
 
 **Key Files**:
+
 ```
 scraping/
 ├── __init__.py
@@ -64,10 +67,11 @@ scraping/
 ```
 
 **Interface**:
+
 ```python
 def scrape_source(url: str, config: dict) -> dict:
     """Scrape single URL.
-    
+
     Returns:
         {
             'text': str,
@@ -86,6 +90,7 @@ def scrape_source(url: str, config: dict) -> dict:
 **Purpose**: Transform raw scraped content into clean, structured data.
 
 **Responsibilities**:
+
 - Text cleaning (HTML, whitespace, unicode)
 - Normalization (quotes, dashes, case)
 - Deduplication (exact + near-duplicate)
@@ -94,11 +99,13 @@ def scrape_source(url: str, config: dict) -> dict:
 - Dataset splitting (train/val/test)
 
 **Does NOT**:
+
 - Fetch data from web
 - Write to disk
 - Upload to Hugging Face
 
 **Key Files**:
+
 ```
 processing/
 ├── __init__.py
@@ -110,6 +117,7 @@ processing/
 ```
 
 **Interface**:
+
 ```python
 def clean_text(text: str, config: dict) -> str:
     """Clean and normalize text."""
@@ -128,6 +136,7 @@ def split_dataset(data: list[dict], config: dict) -> dict:
 **Purpose**: Format and export processed data to various formats and destinations.
 
 **Responsibilities**:
+
 - Serialize to JSONL, Parquet
 - Compress outputs
 - Generate checksums
@@ -135,10 +144,12 @@ def split_dataset(data: list[dict], config: dict) -> dict:
 - Create dataset cards
 
 **Does NOT**:
+
 - Process or transform data
 - Validate data quality
 
 **Key Files**:
+
 ```
 export/
 ├── __init__.py
@@ -148,6 +159,7 @@ export/
 ```
 
 **Interface**:
+
 ```python
 def to_jsonl(data: list[dict], output_path: str, compress: bool = True):
     """Export to JSONL format."""
@@ -163,6 +175,7 @@ def upload_to_hf(data: list[dict], repo_name: str, config: dict):
 **Purpose**: Shared utilities used across modules.
 
 **Responsibilities**:
+
 - Logging setup
 - Text utilities (counting, tokenization)
 - Hashing functions
@@ -170,6 +183,7 @@ def upload_to_hf(data: list[dict], repo_name: str, config: dict):
 - File I/O helpers
 
 **Key Files**:
+
 ```
 utils/
 ├── __init__.py
@@ -186,12 +200,14 @@ utils/
 **Purpose**: Entry points for running pipelines.
 
 **Responsibilities**:
+
 - CLI argument parsing
 - Loading configurations
 - Orchestrating pipeline steps
 - Progress reporting
 
 **Key Files**:
+
 ```
 scripts/
 ├── run_clean_text.py     # Phase 1: Clean text corpus
@@ -200,6 +216,7 @@ scripts/
 ```
 
 **Example**:
+
 ```python
 # scripts/run_clean_text.py
 import argparse
@@ -210,12 +227,12 @@ from export import to_jsonl, upload_to_hf
 def main():
     args = parse_args()
     config = load_config(args.config)
-    
+
     # Pipeline
     raw_data = scrape_sources(config['sources'])
     cleaned = clean_text(raw_data, config['cleaning'])
     deduped = deduplicate(cleaned, config['dedup'])
-    
+
     # Export
     to_jsonl(deduped, config['output']['path'])
     upload_to_hf(deduped, config['output']['hf_repo'])
@@ -231,6 +248,7 @@ if __name__ == '__main__':
 **Purpose**: Configuration files for each dataset (NOT data storage).
 
 **Structure**:
+
 ```
 datasets/
 ├── clean_text/
@@ -322,6 +340,7 @@ datasets/
 ## 🔧 Configuration System
 
 ### Hierarchy
+
 ```
 1. defaults (in code)
 2. config.yaml (dataset-specific)
@@ -330,31 +349,32 @@ datasets/
 ```
 
 ### Example: datasets/clean_text/config.yaml
+
 ```yaml
 dataset:
-  name: sr-bs-hr-clean-text
-  version: 1.0.0
+    name: sr-bs-hr-clean-text
+    version: 1.0.0
 
 collection:
-  user_agent: "BalkanNLP/1.0"
-  timeout: 30
-  max_retries: 3
-  rate_limit: 1
+    user_agent: "BalkanNLP/1.0"
+    timeout: 30
+    max_retries: 3
+    rate_limit: 1
 
 cleaning:
-  min_length: 200
-  max_length: 50000
-  unicode_normalization: NFC
+    min_length: 200
+    max_length: 50000
+    unicode_normalization: NFC
 
 deduplication:
-  use_sha256: true
-  use_minhash: true
-  minhash_threshold: 0.90
+    use_sha256: true
+    use_minhash: true
+    minhash_threshold: 0.90
 
 output:
-  formats: [jsonl, parquet]
-  compression: gzip
-  hf_repo: "balkan-nlp/sr-bs-hr-clean-text"
+    formats: [jsonl, parquet]
+    compression: gzip
+    hf_repo: "balkan-nlp/sr-bs-hr-clean-text"
 ```
 
 ---
@@ -362,18 +382,21 @@ output:
 ## 📦 Dependencies
 
 ### Core
+
 - `requests` - HTTP client
 - `trafilatura` - Web content extraction
 - `beautifulsoup4` - HTML parsing fallback
 - `pyyaml` - Configuration files
 
 ### Processing
+
 - `datasets` - Hugging Face integration
 - `pandas` - Data manipulation
 - `datasketch` - MinHash deduplication
 - `fasttext` - Language identification
 
 ### Export
+
 - `pyarrow` - Parquet format
 - `huggingface-hub` - HF uploads
 
@@ -382,11 +405,13 @@ output:
 ## 🚦 Error Handling Strategy
 
 ### Levels
+
 1. **Retry** - Network errors, timeouts (with backoff)
 2. **Skip** - Invalid URLs, 404s (log and continue)
 3. **Fail** - Configuration errors, missing dependencies (stop pipeline)
 
 ### Example
+
 ```python
 # Retry with backoff
 @retry(max_attempts=3, backoff=2.0)
@@ -409,6 +434,7 @@ for url in urls:
 ## 💾 Storage & Caching
 
 ### Directory Structure
+
 ```
 balkan-nlp/
 ├── cache/          # HTTP response cache (gitignored)
@@ -421,6 +447,7 @@ balkan-nlp/
 ```
 
 ### Caching Strategy
+
 - Cache HTTP responses during development
 - Invalidate cache after 7 days
 - Store cache with URL hash as key
@@ -431,12 +458,14 @@ balkan-nlp/
 ## 🔐 Security Boundaries
 
 ### Input Validation
+
 - Validate URLs before fetching
 - Sanitize filenames
 - Validate YAML configs
 - Check file sizes before processing
 
 ### Output Sanitization
+
 - Remove PII (emails, phone numbers)
 - Anonymize usernames
 - Filter sensitive patterns
@@ -447,12 +476,14 @@ balkan-nlp/
 ## 📊 Monitoring & Logging
 
 ### Logging Levels
+
 - **DEBUG**: Detailed processing info
 - **INFO**: Pipeline progress, statistics
 - **WARNING**: Skipped items, validation issues
 - **ERROR**: Failed operations, exceptions
 
 ### Metrics to Track
+
 - Documents scraped per source
 - Duplicate removal rate
 - Processing time per step
@@ -460,6 +491,7 @@ balkan-nlp/
 - Error rates by type
 
 ### Example
+
 ```python
 logger.info(f"Scraped {len(docs)} documents from {source}")
 logger.info(f"Removed {dupes} duplicates ({dupes/len(docs)*100:.1f}%)")
@@ -471,16 +503,19 @@ logger.warning(f"Skipped {errors} URLs due to errors")
 ## 🧪 Testing Strategy
 
 ### Unit Tests
+
 - Individual functions in isolation
 - Mock external dependencies
 - Test edge cases
 
 ### Integration Tests
+
 - End-to-end pipeline on sample data
 - Validate output format
 - Check metadata completeness
 
 ### Manual Testing
+
 - Sample 1% of output for human review
 - Verify source attribution
 - Check for quality issues
@@ -490,6 +525,7 @@ logger.warning(f"Skipped {errors} URLs due to errors")
 ## 🚀 Deployment
 
 ### Local Development
+
 ```bash
 # Setup
 python -m venv venv
@@ -501,6 +537,7 @@ python scripts/run_clean_text.py --config datasets/clean_text/config.yaml
 ```
 
 ### Production (CI/CD)
+
 ```bash
 # On server/GitHub Actions
 pip install -e .
@@ -512,11 +549,13 @@ python scripts/run_clean_text.py --config config.yaml
 ## 📈 Scalability Considerations
 
 ### Current Design (Phase 1)
+
 - Single-threaded processing
 - Suitable for 50K-150K documents
 - Processing time: hours to days
 
 ### Future Improvements (Phase 2+)
+
 - Parallel scraping (multiprocessing)
 - Distributed processing (Dask/Ray)
 - Incremental updates
@@ -533,4 +572,4 @@ python scripts/run_clean_text.py --config config.yaml
 
 ---
 
-**Last Updated**: 2025-01-19
+**Last Updated**: 2026-01-19
