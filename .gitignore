@@ -38,6 +38,7 @@ ENV/
 
 # Data files (IMPORTANT: Do not commit dataset files!)
 *.jsonl
+*.jsonl.gz
 *.json
 *.parquet
 *.csv

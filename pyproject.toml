@@ -36,6 +36,10 @@ dependencies = [
   "tqdm>=4.67.1",
   "pyyaml>=6.0.3",
   "python-dateutil>=2.9.0.post0",
+  "typer>=0.21.1",
+  "mwparserfromhell>=0.7.2",
+  "mwxml>=0.3.6",
+  "feedparser>=6.0.12",
 ]
 
 [project.optional-dependencies]
