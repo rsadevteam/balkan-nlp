@@ -2,235 +2,248 @@
 # This file defines all sources used for data collection
 
 bosnia:
-  - name: klix
-    url: https://klix.ba
-    language: bs
-    type: news
-    enabled: true
-    rate_limit: 1
-    rss_use_content: true
-    sitemaps:
-      - https://www.klix.ba/sitemap.xml
-    rss:
-      - https://www.klix.ba/rss
+    - name: klix
+      url: https://klix.ba
+      language: bs
+      type: news
+      enabled: true
+      rate_limit: 1
+      use_cloudscraper: true
+      sitemaps: []
+      rss:
+          - https://www.klix.ba/rss
 
-  - name: avaz
-    url: https://avaz.ba
-    language: bs
-    type: news
-    enabled: true
-    rate_limit: 1
-    sitemaps: []
-    rss:
-      - https://avaz.ba/rss
+    - name: avaz
+      url: https://avaz.ba
+      language: bs
+      type: news
+      enabled: true
+      rate_limit: 1
+      use_cloudscraper: true
+      sitemaps: []
+      rss:
+          - https://avaz.ba/rss
 
-  - name: faktor
-    url: https://faktor.ba
-    language: bs
-    type: news
-    enabled: true
-    rate_limit: 1
-    sitemaps: []
-    rss:
-      - https://faktor.ba/rss
+    - name: faktor
+      url: https://faktor.ba
+      language: bs
+      type: news
+      enabled: true
+      rate_limit: 1
+      use_cloudscraper: true
+      sitemaps: []
+      rss:
+          - https://faktor.ba/rss
 
-  - name: n1info_ba
-    url: https://n1info.ba
-    language: bs
-    type: news
-    enabled: true
-    rate_limit: 1
-    sitemaps: []
-    rss:
-      - https://n1info.ba/feed/
+    - name: n1info_ba
+      url: https://n1info.ba
+      language: bs
+      type: news
+      enabled: true
+      rate_limit: 1
+      use_cloudscraper: true
+      sitemaps: []
+      rss:
+          - https://n1info.ba/feed/
 
-  - name: oslobodjenje
-    url: https://oslobodjenje.ba
-    language: bs
-    type: news
-    enabled: true
-    rate_limit: 1
-    sitemaps: []
-    rss:
-      - https://oslobodjenje.ba/rss
+    - name: oslobodjenje
+      url: https://oslobodjenje.ba
+      language: bs
+      type: news
+      enabled: true
+      rate_limit: 1
+      use_cloudscraper: true
+      sitemaps: []
+      rss:
+          - https://oslobodjenje.ba/rss
 
 croatia:
-  - name: index
-    url: https://index.hr
-    language: hr
-    type: news
-    enabled: true
-    rate_limit: 1
-    sitemaps: []
-    rss:
-      - https://www.index.hr/rss
+    - name: index
+      url: https://index.hr
+      language: hr
+      type: news
+      enabled: true
+      rate_limit: 1
+      use_cloudscraper: true
+      sitemaps: []
+      rss:
+          - https://www.index.hr/rss
 
-  - name: jutarnji
-    url: https://jutarnji.hr
-    language: hr
-    type: news
-    enabled: true
-    rate_limit: 1
-    sitemaps: []
-    rss:
-      - https://www.jutarnji.hr/rss
+    - name: jutarnji
+      url: https://jutarnji.hr
+      language: hr
+      type: news
+      enabled: true
+      rate_limit: 1
+      use_cloudscraper: true
+      sitemaps: []
+      rss:
+          - https://www.jutarnji.hr/rss
 
-  - name: vecernji
-    url: https://vecernji.hr
-    language: hr
-    type: news
-    enabled: true
-    rate_limit: 1
-    sitemaps: []
-    rss:
-      - https://www.vecernji.hr/rss
+    - name: vecernji
+      url: https://vecernji.hr
+      language: hr
+      type: news
+      enabled: true
+      rate_limit: 1
+      use_cloudscraper: true
+      sitemaps: []
+      rss:
+          - https://www.vecernji.hr/rss
 
-  - name: tportal
-    url: https://tportal.hr
-    language: hr
-    type: news
-    enabled: true
-    rate_limit: 1
-    sitemaps: []
-    rss:
-      - https://www.tportal.hr/rss
+    - name: tportal
+      url: https://tportal.hr
+      language: hr
+      type: news
+      enabled: true
+      rate_limit: 1
+      use_cloudscraper: true
+      sitemaps: []
+      rss:
+          - https://www.tportal.hr/rss
 
-  - name: 24sata
-    url: https://24sata.hr
-    language: hr
-    type: news
-    enabled: true
-    rate_limit: 1
-    sitemaps: []
-    rss:
-      - https://www.24sata.hr/rss
+    - name: 24sata
+      url: https://24sata.hr
+      language: hr
+      type: news
+      enabled: true
+      rate_limit: 1
+      use_cloudscraper: true
+      sitemaps: []
+      rss:
+          - https://www.24sata.hr/rss
 
 serbia:
-  - name: blic
-    url: https://blic.rs
-    language: sr
-    type: news
-    enabled: true
-    rate_limit: 1
-    sitemaps: []
-    rss:
-      - https://www.blic.rs/rss
+    - name: blic
+      url: https://blic.rs
+      language: sr
+      type: news
+      enabled: true
+      rate_limit: 1
+      use_cloudscraper: true
+      sitemaps: []
+      rss:
+          - https://www.blic.rs/rss
 
-  - name: politika
-    url: https://politika.rs
-    language: sr
-    type: news
-    enabled: true
-    rate_limit: 1
-    sitemaps: []
-    rss:
-      - https://www.politika.rs/rss
+    - name: politika
+      url: https://politika.rs
+      language: sr
+      type: news
+      enabled: true
+      rate_limit: 1
+      use_cloudscraper: true
+      sitemaps: []
+      rss:
+          - https://www.politika.rs/rss
 
-  - name: rts
-    url: https://rts.rs
-    language: sr
-    type: news
-    enabled: true
-    rate_limit: 1
-    sitemaps: []
-    rss: []
+    - name: rts
+      url: https://rts.rs
+      language: sr
+      type: news
+      enabled: true
+      rate_limit: 1
+      use_cloudscraper: true
+      sitemaps: []
+      rss: []
 
-  - name: n1info_rs
-    url: https://n1info.rs
-    language: sr
-    type: news
-    enabled: true
-    rate_limit: 1
-    sitemaps: []
-    rss:
-      - https://n1info.rs/feed/
+    - name: n1info_rs
+      url: https://n1info.rs
+      language: sr
+      type: news
+      enabled: true
+      rate_limit: 1
+      use_cloudscraper: true
+      sitemaps: []
+      rss:
+          - https://n1info.rs/feed/
 
-  - name: b92
-    url: https://b92.net
-    language: sr
-    type: news
-    enabled: true
-    rate_limit: 1
-    sitemaps: []
-    rss:
-      - https://www.b92.net/rss
+    - name: b92
+      url: https://b92.net
+      language: sr
+      type: news
+      enabled: true
+      rate_limit: 1
+      use_cloudscraper: true
+      sitemaps: []
+      rss:
+          - https://www.b92.net/rss
 
 wikipedia:
-  - name: bs_wikipedia
-    url: https://bs.wikipedia.org
-    language: bs
-    type: wiki
-    enabled: true
-    dump_url: https://dumps.wikimedia.org/bswiki/latest/
-    dump_file: bswiki-latest-pages-articles.xml.bz2
+    - name: bs_wikipedia
+      url: https://bs.wikipedia.org
+      language: bs
+      type: wiki
+      enabled: true
+      dump_url: https://dumps.wikimedia.org/bswiki/latest/
+      dump_file: bswiki-latest-pages-articles.xml.bz2
 
-  - name: hr_wikipedia
-    url: https://hr.wikipedia.org
-    language: hr
-    type: wiki
-    enabled: true
-    dump_url: https://dumps.wikimedia.org/hrwiki/latest/
-    dump_file: hrwiki-latest-pages-articles.xml.bz2
+    - name: hr_wikipedia
+      url: https://hr.wikipedia.org
+      language: hr
+      type: wiki
+      enabled: true
+      dump_url: https://dumps.wikimedia.org/hrwiki/latest/
+      dump_file: hrwiki-latest-pages-articles.xml.bz2
 
-  - name: sr_wikipedia
-    url: https://sr.wikipedia.org
-    language: sr
-    type: wiki
-    enabled: true
-    dump_url: https://dumps.wikimedia.org/srwiki/latest/
-    dump_file: srwiki-latest-pages-articles.xml.bz2
+    - name: sr_wikipedia
+      url: https://sr.wikipedia.org
+      language: sr
+      type: wiki
+      enabled: true
+      dump_url: https://dumps.wikimedia.org/srwiki/latest/
+      dump_file: srwiki-latest-pages-articles.xml.bz2
 
 government:
-  - name: sluzbeni_glasnik_bih
-    url: http://www.sluzbenilist.ba
-    language: bs
-    type: gov
-    enabled: false
+    - name: sluzbeni_glasnik_bih
+      url: http://www.sluzbenilist.ba
+      language: bs
+      type: gov
+      enabled: false
 
-  - name: parlament_ba
-    url: http://www.parlament.ba
-    language: bs
-    type: gov
-    enabled: false
+    - name: parlament_ba
+      url: http://www.parlament.ba
+      language: bs
+      type: gov
+      enabled: false
 
-  - name: vladafbih
-    url: https://www.vladafbih.gov.ba
-    language: bs
-    type: gov
-    enabled: false
+    - name: vladafbih
+      url: https://www.vladafbih.gov.ba
+      language: bs
+      type: gov
+      enabled: false
 
-  - name: narodne_novine_hr
-    url: https://narodne-novine.nn.hr
-    language: hr
-    type: gov
-    enabled: false
+    - name: narodne_novine_hr
+      url: https://narodne-novine.nn.hr
+      language: hr
+      type: gov
+      enabled: false
 
-  - name: sabor_hr
-    url: https://www.sabor.hr
-    language: hr
-    type: gov
-    enabled: false
+    - name: sabor_hr
+      url: https://www.sabor.hr
+      language: hr
+      type: gov
+      enabled: false
 
-  - name: vlada_hr
-    url: https://vlada.gov.hr
-    language: hr
-    type: gov
-    enabled: false
+    - name: vlada_hr
+      url: https://vlada.gov.hr
+      language: hr
+      type: gov
+      enabled: false
 
-  - name: sluzbeni_glasnik_rs
-    url: http://www.slglasnik.com
-    language: sr
-    type: gov
-    enabled: false
+    - name: sluzbeni_glasnik_rs
+      url: http://www.slglasnik.com
+      language: sr
+      type: gov
+      enabled: false
 
-  - name: parlament_rs
-    url: http://www.parlament.rs
-    language: sr
-    type: gov
-    enabled: false
+    - name: parlament_rs
+      url: http://www.parlament.rs
+      language: sr
+      type: gov
+      enabled: false
 
-  - name: srbija_gov
-    url: https://www.srbija.gov.rs
-    language: sr
-    type: gov
-    enabled: false
+    - name: srbija_gov
+      url: https://www.srbija.gov.rs
+      language: sr
+      type: gov
+      enabled: false

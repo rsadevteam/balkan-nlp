@@ -1,6 +1,7 @@
 from __future__ import annotations
 
 import gzip
+import importlib
 import time
 from dataclasses import dataclass
 from hashlib import sha256
@@ -43,6 +44,8 @@ class Fetcher:
         self.logger = logger
         self.session = requests.Session()
         self.session.headers.update({"User-Agent": config.user_agent})
+        self._cloudscraper_session = self._create_cloudscraper_session()
+        self._warned_cloudscraper = False
         self._robots: Dict[str, RobotFileParser] = {}
         self._limiters: Dict[str, RateLimiter] = {}
         self.config.cache_dir.mkdir(parents=True, exist_ok=True)
@@ -67,6 +70,15 @@ class Fetcher:
             self._limiters[domain] = RateLimiter(rate_limit)
         return self._limiters[domain]
 
+    def _create_cloudscraper_session(self) -> Optional[requests.Session]:
+        try:
+            module = importlib.import_module("cloudscraper")
+        except ImportError:
+            return None
+        session = module.create_scraper()
+        session.headers.update({"User-Agent": self.config.user_agent})
+        return session
+
     def _allowed_by_robots(self, url: str) -> bool:
         if not self.config.respect_robots_txt:
             return True
@@ -75,7 +87,7 @@ class Fetcher:
         parser = self._get_robot_parser(base_url)
         return parser.can_fetch(self.config.user_agent, url)
 
-    def fetch(self, url: str, rate_limit: float = 1.0) -> Optional[str]:
+    def fetch(self, url: str, rate_limit: float = 1.0, use_cloudscraper: bool = False) -> Optional[str]:
         if not self._allowed_by_robots(url):
             self.logger.info("Blocked by robots.txt: %s", url)
             return None
@@ -93,9 +105,18 @@ class Fetcher:
                 except OSError as exc:
                     self.logger.warning("Failed to read cache for %s: %s", url, exc)
 
+        session = self.session
+        if use_cloudscraper:
+            if self._cloudscraper_session is None:
+                if not self._warned_cloudscraper:
+                    self.logger.warning("cloudscraper not available; using requests")
+                    self._warned_cloudscraper = True
+            else:
+                session = self._cloudscraper_session
+
         for attempt in range(1, self.config.max_retries + 1):
             try:
-                response = self.session.get(url, timeout=self.config.timeout)
+                response = session.get(url, timeout=self.config.timeout)
                 response.raise_for_status()
                 text = response.text
                 if self.config.cache_enabled:

@@ -109,6 +109,7 @@ def _collect_news_documents(
         html = fetcher.fetch(
             url,
             rate_limit=source.get("rate_limit", default_rate_limit),
+            use_cloudscraper=source.get("use_cloudscraper", False),
         )
         if not html:
             continue

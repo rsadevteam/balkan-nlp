@@ -40,6 +40,7 @@ dependencies = [
   "mwparserfromhell>=0.7.2",
   "mwxml>=0.3.6",
   "feedparser>=6.0.12",
+  "cloudscraper>=1.2.71",
 ]
 
 [project.optional-dependencies]

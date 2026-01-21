@@ -80,11 +80,12 @@ def _collect_sitemap_urls(
     sitemap_url: str,
     fetcher,
     since: Optional[datetime],
+    use_cloudscraper: bool,
     depth: int = 0,
 ) -> List[str]:
     if depth > 2:
         return []
-    sitemap_text = fetcher.fetch(sitemap_url)
+    sitemap_text = fetcher.fetch(sitemap_url, use_cloudscraper=use_cloudscraper)
     if not sitemap_text:
         return []
 
@@ -102,7 +103,7 @@ def _collect_sitemap_urls(
             if loc is None or not loc.text:
                 continue
             urls.extend(
-                _collect_sitemap_urls(loc.text, fetcher, since, depth + 1)
+                _collect_sitemap_urls(loc.text, fetcher, since, use_cloudscraper, depth + 1)
             )
         return urls
 
@@ -125,8 +126,9 @@ def _collect_rss_urls(
     rss_url: str,
     fetcher,
     since: Optional[datetime],
+    use_cloudscraper: bool,
 ) -> List[str]:
-    rss_text = fetcher.fetch(rss_url)
+    rss_text = fetcher.fetch(rss_url, use_cloudscraper=use_cloudscraper)
     if not rss_text:
         return []
 
@@ -153,12 +155,13 @@ def discover_urls(source: Dict[str, Any], fetcher, since: Optional[datetime]) ->
     urls: List[str] = []
     sitemaps = source.get("sitemaps") or _default_sitemap_urls(source["url"])
     rss_feeds = source.get("rss") or _default_rss_urls(source["url"])
+    use_cloudscraper = source.get("use_cloudscraper", False)
 
     for sitemap_url in sitemaps:
-        urls.extend(_collect_sitemap_urls(sitemap_url, fetcher, since))
+        urls.extend(_collect_sitemap_urls(sitemap_url, fetcher, since, use_cloudscraper))
 
     for rss_url in rss_feeds:
-        urls.extend(_collect_rss_urls(rss_url, fetcher, since))
+        urls.extend(_collect_rss_urls(rss_url, fetcher, since, use_cloudscraper))
 
     if not urls:
         urls = [source["url"]]
@@ -170,9 +173,10 @@ def discover_urls(source: Dict[str, Any], fetcher, since: Optional[datetime]) ->
 def collect_rss_entries(source: Dict[str, Any], fetcher, since: Optional[datetime]) -> List[Dict[str, Any]]:
     entries: List[Dict[str, Any]] = []
     rss_feeds = source.get("rss") or _default_rss_urls(source["url"])
+    use_cloudscraper = source.get("use_cloudscraper", False)
 
     for rss_url in rss_feeds:
-        rss_text = fetcher.fetch(rss_url)
+        rss_text = fetcher.fetch(rss_url, use_cloudscraper=use_cloudscraper)
         if not rss_text:
             continue
         feedparser = _load_feedparser()
