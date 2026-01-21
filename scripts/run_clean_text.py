@@ -1,6 +1,7 @@
 from __future__ import annotations
 
 from datetime import datetime, timedelta, timezone
+import gzip
 from pathlib import Path
 from typing import Dict, Iterable, List, Optional
 from uuid import uuid4
@@ -173,6 +174,7 @@ def _apply_processing_pipeline(
     documents: Iterable[Dict],
     config: Dict,
     logger,
+    assign_ids: bool = True,
 ) -> List[Dict]:
     cleaned_docs: List[Dict] = []
     cleaning_config = config.get("cleaning", {})
@@ -189,10 +191,52 @@ def _apply_processing_pipeline(
             continue
         if not validate_language(doc, language_config, logger):
             continue
-        doc["id"] = str(uuid4())
+        if assign_ids:
+            doc["id"] = str(uuid4())
         cleaned_docs.append(doc)
 
     return cleaned_docs
+
+
+def _load_documents_from_path(path: Path, logger) -> List[Dict]:
+    if not path.exists():
+        raise typer.BadParameter(f"Missing input file: {path}")
+    if path.suffix == ".parquet":
+        import pandas as pd
+
+        frame = pd.read_parquet(path)
+        return frame.to_dict(orient="records")
+    if path.suffix == ".gz":
+        opener = gzip.open
+    elif path.suffix == ".jsonl":
+        opener = open
+    else:
+        raise typer.BadParameter(f"Unsupported input format: {path}")
+
+    documents: List[Dict] = []
+    with opener(path, "rt", encoding="utf-8") as handle:
+        for line in handle:
+            line = line.strip()
+            if not line:
+                continue
+            documents.append(json.loads(line))
+    logger.info("Loaded %s documents from %s", len(documents), path)
+    return documents
+
+
+def _load_merge_inputs(paths: List[Path], logger) -> List[Dict]:
+    documents: List[Dict] = []
+    for path in paths:
+        documents.extend(_load_documents_from_path(path, logger))
+    return documents
+
+
+def _assign_ids(documents: Iterable[Dict]) -> List[Dict]:
+    updated: List[Dict] = []
+    for doc in documents:
+        doc["id"] = str(uuid4())
+        updated.append(doc)
+    return updated
 
 
 def _export_splits(splits: Dict[str, List[Dict]], config: Dict, logger) -> None:
@@ -207,6 +251,19 @@ def _export_splits(splits: Dict[str, List[Dict]], config: Dict, logger) -> None:
         if "parquet" in formats:
             export_parquet(items, str(output_dir / f"{split_name}.parquet"), compression)
         logger.info("Exported %s items for %s", len(items), split_name)
+
+
+def _export_raw_documents(documents: List[Dict], config: Dict, suffix: str, logger) -> None:
+    output_config = config.get("output", {})
+    output_dir = Path(output_config.get("output_dir", "./output/clean_text")) / "raw"
+    formats = output_config.get("formats", ["jsonl"])
+    compression = output_config.get("compression")
+    output_dir.mkdir(parents=True, exist_ok=True)
+    if "jsonl" in formats:
+        export_jsonl(documents, str(output_dir / f"{suffix}.jsonl"), compression)
+    if "parquet" in formats:
+        export_parquet(documents, str(output_dir / f"{suffix}.parquet"), compression)
+    logger.info("Exported %s raw documents to %s", len(documents), output_dir)
 
 
 def _save_stats(splits: Dict[str, List[Dict]], config: Dict) -> None:
@@ -249,6 +306,13 @@ def run(
     since: Optional[str] = typer.Option(None, "--since", help="ISO date or relative (7d)."),
     source: Optional[List[str]] = typer.Option(None, "--source", help="Source name filter."),
     no_upload: bool = typer.Option(False, "--no-upload", help="Skip Hugging Face upload."),
+    no_split: bool = typer.Option(False, "--no-split", help="Export raw cleaned data only."),
+    output_suffix: str = typer.Option("raw", "--output-suffix", help="Suffix for raw output."),
+    merge_inputs: Optional[List[Path]] = typer.Option(
+        None,
+        "--merge-inputs",
+        help="Input files to merge (repeatable).",
+    ),
 ) -> None:
     config = load_config(config_path)
     logger = setup_logging(
@@ -257,14 +321,40 @@ def run(
     )
     since_date = _parse_since(since)
 
+    if merge_inputs and no_split:
+        raise typer.BadParameter("--merge-inputs cannot be used with --no-split")
+    if merge_inputs and dry_run:
+        raise typer.BadParameter("--merge-inputs cannot be used with --dry-run")
+
     sources = load_sources(str(sources_path))
     sources = filter_sources(sources, source)
 
-    if not sources:
+    if not sources and not merge_inputs:
         logger.warning("No sources enabled or matched the filter.")
         return
 
     fetcher = _build_fetcher(config, logger)
+
+    if merge_inputs:
+        documents = _load_merge_inputs(merge_inputs, logger)
+        logger.info("Loaded %s documents from merge inputs", len(documents))
+        deduped = deduplicate_documents(documents, config.get("deduplication", {}), logger)
+        deduped = _assign_ids(deduped)
+        splits = split_dataset(deduped, config.get("splits", {}))
+        _export_splits(splits, config, logger)
+        _save_stats(splits, config)
+
+        output_config = config.get("output", {})
+        hf_repo = output_config.get("hf_repo")
+        if hf_repo and not no_upload:
+            hf_splits = {
+                "train": splits.get("train", []),
+                "validation": splits.get("validation", []),
+            }
+            upload_dataset(hf_splits, hf_repo, output_config.get("hf_private", False), logger)
+        elif hf_repo and no_upload:
+            logger.info("Skipping Hugging Face upload (flagged).")
+        return
 
     if dry_run:
         for src in sources:
@@ -299,8 +389,12 @@ def run(
 
     logger.info("Collected %s raw documents", len(raw_documents))
 
-    processed = _apply_processing_pipeline(raw_documents, config, logger)
+    processed = _apply_processing_pipeline(raw_documents, config, logger, assign_ids=not no_split)
     logger.info("Processed %s documents after cleaning", len(processed))
+
+    if no_split:
+        _export_raw_documents(processed, config, output_suffix, logger)
+        return
 
     deduped = deduplicate_documents(processed, config.get("deduplication", {}), logger)
     logger.info("Deduplicated to %s documents", len(deduped))

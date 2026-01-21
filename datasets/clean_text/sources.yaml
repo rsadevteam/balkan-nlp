@@ -6,7 +6,7 @@ bosnia:
       url: https://klix.ba
       language: bs
       type: news
-      enabled: true
+      enabled: false
       rate_limit: 1
       use_cloudscraper: true
       sitemaps: []
@@ -17,7 +17,7 @@ bosnia:
       url: https://avaz.ba
       language: bs
       type: news
-      enabled: true
+      enabled: false
       rate_limit: 1
       use_cloudscraper: true
       sitemaps: []
@@ -28,7 +28,7 @@ bosnia:
       url: https://faktor.ba
       language: bs
       type: news
-      enabled: true
+      enabled: false
       rate_limit: 1
       use_cloudscraper: true
       sitemaps: []
@@ -39,7 +39,7 @@ bosnia:
       url: https://n1info.ba
       language: bs
       type: news
-      enabled: true
+      enabled: false
       rate_limit: 1
       use_cloudscraper: true
       sitemaps: []
@@ -50,7 +50,7 @@ bosnia:
       url: https://oslobodjenje.ba
       language: bs
       type: news
-      enabled: true
+      enabled: false
       rate_limit: 1
       use_cloudscraper: true
       sitemaps: []
@@ -62,7 +62,7 @@ croatia:
       url: https://index.hr
       language: hr
       type: news
-      enabled: true
+      enabled: false
       rate_limit: 1
       use_cloudscraper: true
       sitemaps: []
@@ -73,7 +73,7 @@ croatia:
       url: https://jutarnji.hr
       language: hr
       type: news
-      enabled: true
+      enabled: false
       rate_limit: 1
       use_cloudscraper: true
       sitemaps: []
@@ -84,7 +84,7 @@ croatia:
       url: https://vecernji.hr
       language: hr
       type: news
-      enabled: true
+      enabled: false
       rate_limit: 1
       use_cloudscraper: true
       sitemaps: []
@@ -95,7 +95,7 @@ croatia:
       url: https://tportal.hr
       language: hr
       type: news
-      enabled: true
+      enabled: false
       rate_limit: 1
       use_cloudscraper: true
       sitemaps: []
@@ -106,7 +106,7 @@ croatia:
       url: https://24sata.hr
       language: hr
       type: news
-      enabled: true
+      enabled: false
       rate_limit: 1
       use_cloudscraper: true
       sitemaps: []
@@ -118,7 +118,7 @@ serbia:
       url: https://blic.rs
       language: sr
       type: news
-      enabled: true
+      enabled: false
       rate_limit: 1
       use_cloudscraper: true
       sitemaps: []
@@ -129,7 +129,7 @@ serbia:
       url: https://politika.rs
       language: sr
       type: news
-      enabled: true
+      enabled: false
       rate_limit: 1
       use_cloudscraper: true
       sitemaps: []
@@ -140,7 +140,7 @@ serbia:
       url: https://rts.rs
       language: sr
       type: news
-      enabled: true
+      enabled: false
       rate_limit: 1
       use_cloudscraper: true
       sitemaps: []
@@ -150,7 +150,7 @@ serbia:
       url: https://n1info.rs
       language: sr
       type: news
-      enabled: true
+      enabled: false
       rate_limit: 1
       use_cloudscraper: true
       sitemaps: []
@@ -161,7 +161,7 @@ serbia:
       url: https://b92.net
       language: sr
       type: news
-      enabled: true
+      enabled: false
       rate_limit: 1
       use_cloudscraper: true
       sitemaps: []
