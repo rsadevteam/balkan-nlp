@@ -247,6 +247,7 @@ def run(
     limit: Optional[int] = typer.Option(None, "--limit", help="Limit URLs per source."),
     since: Optional[str] = typer.Option(None, "--since", help="ISO date or relative (7d)."),
     source: Optional[List[str]] = typer.Option(None, "--source", help="Source name filter."),
+    no_upload: bool = typer.Option(False, "--no-upload", help="Skip Hugging Face upload."),
 ) -> None:
     config = load_config(config_path)
     logger = setup_logging(
@@ -309,12 +310,14 @@ def run(
 
     output_config = config.get("output", {})
     hf_repo = output_config.get("hf_repo")
-    if hf_repo:
+    if hf_repo and not no_upload:
         hf_splits = {
             "train": splits.get("train", []),
             "validation": splits.get("validation", []),
         }
         upload_dataset(hf_splits, hf_repo, output_config.get("hf_private", False), logger)
+    elif hf_repo and no_upload:
+        logger.info("Skipping Hugging Face upload (flagged).")
 
 
 if __name__ == "__main__":
