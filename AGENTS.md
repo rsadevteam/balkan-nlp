@@ -21,6 +21,7 @@ balkan-nlp/
 ├── processing/        # Cleaning, dedup, normalization
 ├── export/            # JSONL, Parquet, HF upload
 ├── datasets/          # Dataset configs (NOT data files)
+├── models/            # Local language models (gitignored)
 ├── scripts/           # Entry points for pipelines
 ├── utils/             # Shared utilities
 └── docs/              # Documentation

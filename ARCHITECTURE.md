@@ -439,6 +439,7 @@ for url in urls:
 balkan-nlp/
 ├── cache/          # HTTP response cache (gitignored)
 ├── logs/           # Processing logs (gitignored)
+├── models/         # Local ML models (gitignored)
 ├── output/         # Final datasets (gitignored)
 │   ├── clean_text/
 │   ├── language_id/

@@ -35,6 +35,8 @@ balkan-nlp/
 ├── pyproject.toml
 ├── .gitignore
 │
+├── models/             # Local language models (gitignored)
+│
 ├── docs/
 │   ├── PHASE_1.md
 │   ├── PHASE_2.md

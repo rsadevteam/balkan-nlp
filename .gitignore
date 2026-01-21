@@ -97,3 +97,6 @@ secrets.yaml
 # Hugging Face cache (if using locally)
 .cache/
 ~/.cache/huggingface/
+
+# Models
+models/
