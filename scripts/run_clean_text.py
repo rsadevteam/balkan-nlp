@@ -1,6 +1,6 @@
 from __future__ import annotations
 
-from datetime import datetime, timedelta, timezone
+from datetime import date, datetime, timedelta, timezone
 import gzip
 from pathlib import Path
 from typing import Dict, Iterable, List, Optional
@@ -49,10 +49,24 @@ def _parse_since(value: Optional[str]) -> Optional[datetime]:
         raise typer.BadParameter("Invalid --since format") from exc
 
 
-def _format_date(value: Optional[datetime]) -> Optional[str]:
+def _format_date(value: Optional[datetime | date | str]) -> Optional[str]:
     if not value:
         return None
-    return value.date().isoformat()
+    if isinstance(value, str):
+        try:
+            parsed = date_parser.parse(value)
+        except (ValueError, TypeError):
+            return None
+        if parsed.tzinfo:
+            parsed = parsed.astimezone(timezone.utc).replace(tzinfo=None)
+        return parsed.date().isoformat()
+    if isinstance(value, datetime):
+        if value.tzinfo:
+            value = value.astimezone(timezone.utc).replace(tzinfo=None)
+        return value.date().isoformat()
+    if isinstance(value, date):
+        return value.isoformat()
+    return None
 
 
 def _build_fetcher(config: Dict, logger) -> Fetcher:
