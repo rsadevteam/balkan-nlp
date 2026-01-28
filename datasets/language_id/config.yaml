@@ -1,132 +1,132 @@
 # Configuration for Language Identification Dataset
 
 dataset:
-  name: sr-bs-hr-language-id
-  version: 1.0.0
-  description: "Language identification dataset for sr/bs/hr distinction"
-  
-  target_size:
-    min_samples: 30000
-    max_samples: 60000
-    
-  language_distribution:
-    bs: 0.33
-    hr: 0.33
-    sr: 0.34
+    name: sr-bs-hr-language-id
+    version: 1.0.0
+    description: "Language identification dataset for sr/bs/hr distinction"
+
+    target_size:
+        min_samples: 30000
+        max_samples: 60000
+
+    language_distribution:
+        bs: 0.33
+        hr: 0.33
+        sr: 0.34
 
 source:
-  # Derive from Clean Text Corpus
-  source_dataset: "clean_text"
-  source_dataset_path: "../../output/clean_text"
-  
+    # Derive from Clean Text Corpus
+    source_dataset: "clean_text"
+    source_dataset_path: "../../output/clean_text"
+
 extraction:
-  # Text extraction strategy
-  method: "random_sentences"  # or "random_paragraphs"
-  
-  # Sentence/paragraph count
-  min_sentences: 2
-  max_sentences: 5
-  
-  # Length stratification
-  length_buckets:
-    short:
-      min_chars: 50
-      max_chars: 100
-      percentage: 0.25
-    medium:
-      min_chars: 100
-      max_chars: 300
-      percentage: 0.50
-    long:
-      min_chars: 300
-      max_chars: 800
-      percentage: 0.25
+    # Text extraction strategy
+    method: "random_sentences" # or "random_paragraphs"
+
+    # Sentence/paragraph count
+    min_sentences: 2
+    max_sentences: 5
+
+    # Length stratification
+    length_buckets:
+        short:
+            min_chars: 50
+            max_chars: 100
+            percentage: 0.25
+        medium:
+            min_chars: 100
+            max_chars: 300
+            percentage: 0.50
+        long:
+            min_chars: 300
+            max_chars: 800
+            percentage: 0.25
 
 labeling:
-  # Primary strategy: source-based
-  strategy: "source_based"
-  
-  # Source to label mapping
-  source_mappings:
-    # Bosnian sources
-    "klix.ba": "bs"
-    "avaz.ba": "bs"
-    "faktor.ba": "bs"
-    "n1info.ba": "bs"
-    "bs.wikipedia.org": "bs"
-    
-    # Croatian sources
-    "index.hr": "hr"
-    "jutarnji.hr": "hr"
-    "vecernji.hr": "hr"
-    "tportal.hr": "hr"
-    "hr.wikipedia.org": "hr"
-    
-    # Serbian sources
-    "blic.rs": "sr"
-    "politika.rs": "sr"
-    "rts.rs": "sr"
-    "n1info.rs": "sr"
-    "sr.wikipedia.org": "sr"
+    # Primary strategy: source-based
+    strategy: "source_based"
+
+    # Source to label mapping
+    source_mappings:
+        # Bosnian sources
+        "klix.ba": "bs"
+        "avaz.ba": "bs"
+        "faktor.ba": "bs"
+        "n1info.ba": "bs"
+        "bs.wikipedia.org": "bs"
+
+        # Croatian sources
+        "index.hr": "hr"
+        "jutarnji.hr": "hr"
+        "vecernji.hr": "hr"
+        "tportal.hr": "hr"
+        "hr.wikipedia.org": "hr"
+
+        # Serbian sources
+        "blic.rs": "sr"
+        "politika.rs": "sr"
+        "rts.rs": "sr"
+        "n1info.rs": "sr"
+        "sr.wikipedia.org": "sr"
 
 quality:
-  # Filtering criteria
-  min_words: 10
-  max_words: 200
-  
-  # Text quality checks
-  reject_if_contains:
-    - "http://"
-    - "https://"
-    - "[["
-    - "]]"
-    
-  # Character validation
-  max_digit_ratio: 0.2
-  max_punctuation_ratio: 0.3
-  
+    # Filtering criteria
+    min_words: 10
+    max_words: 200
+
+    # Text quality checks
+    reject_if_contains:
+        - "http://"
+        - "https://"
+        - "[["
+        - "]]"
+
+    # Character validation
+    max_digit_ratio: 0.2
+    max_punctuation_ratio: 0.3
+
 balancing:
-  # Balance across languages
-  balance_languages: true
-  
-  # Balance across sources within each language
-  balance_sources: true
-  
-  # Balance across length buckets
-  balance_lengths: true
+    # Balance across languages
+    balance_languages: true
+
+    # Balance across sources within each language
+    balance_sources: true
+
+    # Balance across length buckets
+    balance_lengths: true
 
 splits:
-  train: 0.70
-  validation: 0.15
-  test: 0.15
-  
-  # Stratification
-  stratify_by:
-    - language
-    - length_bucket
-    - source
-  
-  # Random seed
-  random_seed: 42
+    train: 0.70
+    validation: 0.15
+    test: 0.15
+
+    # Stratification
+    stratify_by:
+        - language
+        - length_bucket
+        - source
+
+    # Random seed
+    random_seed: 42
 
 output:
-  formats:
-    - jsonl
-    - parquet
-    - csv  # for easy manual inspection
-  
-  output_dir: "./output/language_id"
-  compression: gzip
-  
-  # Hugging Face
-  hf_repo: "balkan-nlp/sr-bs-hr-language-id"
-  hf_private: false
+    formats:
+        - jsonl
+        - parquet
+        - csv # for easy manual inspection
+
+    output_dir: "./output/language_id"
+    compression: gzip
+
+    # Hugging Face
+    hf_repo: "rsateam/sr-bs-hr-language-id"
+    hf_private: false
 
 logging:
-  level: INFO
-  log_file: "./logs/language_id_processing.log"
+    level: INFO
+    log_file: "./logs/language_id_processing.log"
 
 metadata:
-  save_intermediate: true
-  save_statistics: true
-  statistics_dir: "./stats/language_id"
+    save_intermediate: true
+    save_statistics: true
+    statistics_dir: "./stats/language_id"

@@ -114,7 +114,7 @@ output:
     compression: gzip
 
     # Hugging Face
-    hf_repo: "balkan-nlp/sr-bs-hr-clean-text"
+    hf_repo: "rsateam/sr-bs-hr-clean-text"
     hf_private: false
 
 logging:
